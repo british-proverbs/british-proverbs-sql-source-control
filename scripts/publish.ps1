@@ -8,15 +8,15 @@
 #resources
 ##################################################
 param(
-	$nugetApiKey = "$env:british-proverbs_NUGET_API_KEY",
-    $nugetSource = "$env:british-proverbs_NUGET_Source",
+	$nugetApiKey = $env:british_proverbs_NUGET_API_KEY,
+    $nugetSource = $env:british_proverbs_NUGET_Source
 )
 
 function require-param { 
     param($value, $paramName)
     
     if($value -eq $null) { 
-        write-error "The parameter -$paramName is required."
+        throw "The parameter -$paramName is required."
     }
 }
 
