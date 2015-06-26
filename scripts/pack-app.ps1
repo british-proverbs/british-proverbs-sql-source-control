@@ -1,6 +1,6 @@
 $currentPath = Split-Path -parent $MyInvocation.MyCommand.Definition
 $artifactsPath = join-path $currentPath "..\artifacts"
-$artifactsPackagesPath = join-path $currentPath "packages" 
+$artifactsPackagesPath = join-path $artifactsPath "packages" 
 $appPath = join-path $artifactsPath "_PublishedWebsites\BritishProverbs.Web\**"
 $octoPath = join-path $currentPath "..\packages\OctopusTools"
 $octoExePath = join-path $octoPath "octo.exe"
