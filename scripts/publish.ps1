@@ -8,7 +8,8 @@
 #resources
 ##################################################
 param(
-	$nugetApiKey = "$env:NUGET_API_KEY"
+	$nugetApiKey = "$env:british-proverbs_NUGET_API_KEY",
+    $nugetSource = "$env:british-proverbs_NUGET_Source",
 )
 
 function require-param { 
@@ -20,6 +21,7 @@ function require-param {
 }
 
 require-param $nugetApiKey -paramName "nugetApiKey"
+require-param $nugetSource -paramName "nugetSource"
 
 #safely find the solutionDir
 $ps1Dir = (Split-Path -parent $MyInvocation.MyCommand.Definition)
@@ -31,5 +33,5 @@ $packages = dir "$solutionDir\artifacts\packages\*.nupkg"
 foreach($package in $packages) { 
 
     #$package is type of System.IO.FileInfo
-    & "$nugetExePath\Nuget.exe" push $package.FullName $nugetApiKey
+    & "$nugetExePath\Nuget.exe" push $package.FullName -ApiKey $nugetApiKey -Source $nugetSource
 }
