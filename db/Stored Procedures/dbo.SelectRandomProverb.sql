@@ -11,6 +11,6 @@ BEGIN
 
 	SELECT TOP 1 Id, Content, IsVisible, CreatedOn
 	FROM dbo.Proverbs 
-	ORDER BY NEWID();
+	ORDER BY RAND();
 END
 GO
