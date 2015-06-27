@@ -14,7 +14,9 @@ namespace BritishProverbs.Web.Controllers
     {
         public ActionResult Index()
         {
+            RecordVisit(Request.UserHostAddress);
             var proverbModel = GetRandomProverb();
+
             return View(proverbModel);
         }
 
@@ -37,6 +39,25 @@ namespace BritishProverbs.Web.Controllers
                     {
                         return reader.Select(r => ProverbModelBuilder(r)).First();
                     }
+                }
+            }
+        }
+
+        private void RecordVisit(string ipAddress)
+        {
+            const string insertStatement = "INSERT INTO Visits(IpAddress, CreatedOn) VALUES(@IpAddress, @CreatedOn)";
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                using (var cmd = new SqlCommand(insertStatement, conn))
+                {
+                    cmd.Parameters.Add("IpAddress", SqlDbType.NVarChar).Value = ipAddress;
+                    cmd.Parameters.Add("CreatedOn", SqlDbType.DateTimeOffset).Value = DateTimeOffset.Now;
+
+                    conn.Open();
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
